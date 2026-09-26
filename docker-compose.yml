@@ -2,7 +2,11 @@ services:
   bot:
     build: .
     restart: unless-stopped
-    env_file: .env
+    environment:
+      # Слева — имя, которое ждёт код (не трогаем).
+      # Справа, в ${...} — имя переменной, заданной в панели/платформе (TG_BOT).
+      TELEGRAM_BOT_TOKEN: "${TG_BOT:?Переменная TG_BOT не задана в настройках приложения}"
+      REMINDER_INTERVAL_SECONDS: "${REMINDER_INTERVAL_SECONDS:-1800}"
     ports:
       - "8000:8000"
     volumes:
